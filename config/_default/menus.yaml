@@ -19,3 +19,6 @@ main:
   - name: Posts
     url: blog/
     weight: 50
+  - name: Weekly
+    url: weekly/
+    weight: 60

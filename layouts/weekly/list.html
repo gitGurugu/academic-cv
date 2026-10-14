@@ -1,0 +1,42 @@
+{{/* Weekly index: card grid, newest first. Issues live in content/weekly/<issue>/index.md. */}}
+{{- define "main" -}}
+<main class="weekly-index" aria-labelledby="weekly-index-title">
+  <header class="weekly-index-header">
+    <span class="weekly-kicker">A WEEKLY NOTEBOOK</span>
+    <h1 id="weekly-index-title">{{ .Title }}</h1>
+    {{ with .Content }}<div class="weekly-index-intro">{{ . }}</div>{{ end }}
+  </header>
+
+  {{ $issues := .Pages.ByDate.Reverse }}
+  {{ if $issues }}
+  <div class="weekly-card-grid">
+    {{ range $issues }}
+      {{ $page := . }}
+      {{ $cover := .Resources.GetMatch "cover.*" }}
+      <article class="weekly-card">
+        <a class="weekly-card-link" href="{{ .RelPermalink }}">
+          <div class="weekly-card-cover{{ if not $cover }} weekly-card-cover-fallback{{ end }}">
+            {{ with $cover }}
+              {{ $thumbnail := .Fill "800x480 Center q86" }}
+              <img src="{{ $thumbnail.RelPermalink }}" width="{{ $thumbnail.Width }}" height="{{ $thumbnail.Height }}" alt="{{ $page.Params.cover_alt | default $page.Title }}" loading="lazy" decoding="async">
+            {{ else }}
+              <span class="weekly-card-mark">W</span>
+              <span class="weekly-card-issue">ISSUE {{ printf "%03d" (int (.Params.issue | default 0)) }}</span>
+            {{ end }}
+          </div>
+          <div class="weekly-card-copy">
+            <div class="weekly-card-heading">
+              <h2>{{ .Title }}</h2>
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Params.interval | default (.Date.Format "Jan 2, 2006") }}</time>
+            </div>
+            {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
+          </div>
+        </a>
+      </article>
+    {{ end }}
+  </div>
+  {{ else }}
+  <p class="weekly-empty">No issues yet.</p>
+  {{ end }}
+</main>
+{{- end -}}

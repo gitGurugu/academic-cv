@@ -475,3 +475,524 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Weekly: card index + sidebar/article reader (layouts/weekly, layouts/_shortcodes/weekly-photo.html) */
+.weekly-index {
+  width: calc(100% - 3rem);
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2rem 0 5rem;
+}
+
+.weekly-index-header {
+  max-width: 44rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+  padding-bottom: 1.35rem;
+}
+
+.weekly-kicker {
+  color: #2962ff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.weekly-index-header h1 {
+  margin: 0.3rem 0 0.45rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+}
+
+.weekly-index-intro,
+.weekly-index-intro p,
+.weekly-empty {
+  margin: 0;
+  color: #667085;
+  font-size: 1rem;
+}
+
+.weekly-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.weekly-card {
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.65rem;
+  background: #fff;
+  box-shadow: 0 0.45rem 1.4rem rgba(15, 23, 42, 0.07);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.weekly-card:hover {
+  border-color: rgba(41, 98, 255, 0.42);
+  box-shadow: 0 0.8rem 2rem rgba(15, 23, 42, 0.12);
+  transform: translateY(-3px);
+}
+
+.weekly-card-link,
+.weekly-card-link:hover {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.weekly-card-cover {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 5 / 3;
+  background: #e8eefc;
+}
+
+.weekly-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 220ms ease;
+}
+
+.weekly-card:hover .weekly-card-cover img {
+  transform: scale(1.025);
+}
+
+.weekly-card-cover-fallback {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1.15rem;
+  background: linear-gradient(135deg, rgba(41, 98, 255, 0.96), rgba(48, 183, 166, 0.86)), #2962ff;
+  color: #fff;
+}
+
+.weekly-card-cover-fallback::after {
+  position: absolute;
+  top: -35%;
+  right: -12%;
+  width: 72%;
+  height: 150%;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  content: "";
+  transform: rotate(18deg);
+}
+
+.weekly-card-mark {
+  font-size: 4.4rem;
+  font-weight: 900;
+  letter-spacing: -0.08em;
+  line-height: 0.75;
+}
+
+.weekly-card-issue {
+  position: relative;
+  z-index: 1;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.weekly-card-copy {
+  padding: 0.82rem 0.88rem 0.92rem;
+}
+
+.weekly-card-heading h2 {
+  overflow: hidden;
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.weekly-card-heading time {
+  display: block;
+  margin-top: 0.12rem;
+  color: #667085;
+  font-size: 0.66rem;
+}
+
+.weekly-card-copy p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0.42rem 0 0;
+  color: #667085;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.weekly-shell {
+  display: grid;
+  grid-template-columns: 16.5rem minmax(0, 41.2rem) 1fr;
+  gap: 3.5rem;
+  width: calc(100% - 4rem);
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2.4rem 0 5rem;
+  align-items: start;
+}
+
+.weekly-sidebar {
+  position: sticky;
+  top: 5.4rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 7rem);
+  border-right: 1px solid rgba(15, 23, 42, 0.12);
+  padding-right: 1.25rem;
+}
+
+.weekly-sidebar-title {
+  display: inline-block;
+  color: inherit;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.weekly-sidebar-title:hover {
+  color: #2962ff;
+  text-decoration: none;
+}
+
+.weekly-sidebar-note {
+  margin: 0.3rem 0 1.2rem;
+  color: #667085;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.weekly-sidebar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.weekly-sidebar-list li + li {
+  border-top: 1px solid rgba(15, 23, 42, 0.07);
+}
+
+.weekly-sidebar-list a {
+  display: block;
+  padding: 0.65rem 0.15rem;
+  color: #344054;
+  text-decoration: none;
+}
+
+.weekly-sidebar-list a:hover,
+.weekly-sidebar-list a[aria-current="page"] {
+  color: #2962ff;
+}
+
+.weekly-sidebar-list a[aria-current="page"] {
+  font-weight: 700;
+}
+
+.weekly-sidebar-list span {
+  display: block;
+  overflow: hidden;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.weekly-sidebar-list time {
+  display: block;
+  margin-top: 0.2rem;
+  color: #98a2b3;
+  font-size: 0.68rem;
+  font-weight: 400;
+}
+
+.weekly-reading {
+  min-width: 0;
+}
+
+.weekly-article-header {
+  margin-bottom: 1.5rem;
+}
+
+.weekly-article-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+  color: #667085;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.weekly-article-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+.weekly-article-header > p {
+  margin: 0.8rem 0 0;
+  color: #667085;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.weekly-hero {
+  width: 100%;
+  margin: 0 0 2.2rem;
+}
+
+.weekly-hero img {
+  display: block;
+  width: 100%;
+  border-radius: 0.55rem;
+  aspect-ratio: 16 / 8.5;
+  object-fit: cover;
+}
+
+.weekly-hero figcaption,
+.weekly-photo figcaption {
+  margin-top: 0.55rem;
+  color: #98a2b3;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.weekly-hero-fallback {
+  display: grid;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.55rem;
+  aspect-ratio: 16 / 8.5;
+  padding: 1.7rem;
+  background: linear-gradient(145deg, #1f5ed7 0%, #2962ff 44%, #2db5a4 100%);
+  color: #fff;
+  align-content: space-between;
+}
+
+.weekly-hero-fallback::after {
+  position: absolute;
+  inset: 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 50%;
+  content: "";
+  transform: rotate(-9deg) scaleX(0.78);
+}
+
+.weekly-hero-fallback span,
+.weekly-hero-fallback small {
+  position: relative;
+  z-index: 1;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+}
+
+.weekly-hero-fallback strong {
+  position: absolute;
+  right: 1.6rem;
+  bottom: 1.1rem;
+  z-index: 1;
+  font-size: clamp(5rem, 12vw, 8rem);
+  font-weight: 900;
+  letter-spacing: -0.08em;
+  line-height: 0.8;
+}
+
+/* Article body. Tailwind preflight resets headings, lists and links, so they are restored here. */
+.weekly-article-body {
+  color: #2d3748;
+  font-size: 1rem;
+  line-height: 1.78;
+}
+
+.weekly-article-body > p {
+  margin: 1.45rem 0;
+}
+
+.weekly-article-body h2 {
+  margin: 2.8rem 0 0.9rem;
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+}
+
+.weekly-article-body h3 {
+  margin: 1.8rem 0 0.65rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.weekly-article-body ul {
+  list-style: disc;
+}
+
+.weekly-article-body ol {
+  list-style: decimal;
+}
+
+.weekly-article-body ul,
+.weekly-article-body ol {
+  margin: 1rem 0 1.5rem;
+  padding-left: 1.35rem;
+}
+
+.weekly-article-body li {
+  margin: 0.42rem 0;
+}
+
+.weekly-article-body a {
+  color: #2962ff;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.weekly-article-body code {
+  border-radius: 0.25rem;
+  background: rgba(15, 23, 42, 0.07);
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.weekly-article-body pre {
+  overflow-x: auto;
+  margin: 1.4rem 0;
+  border-radius: 0.45rem;
+  background: #111827;
+  padding: 1rem;
+  color: #e5e7eb;
+  font-size: 0.88rem;
+}
+
+.weekly-article-body pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.weekly-article-body blockquote {
+  margin: 1.6rem 0;
+  border-left: 3px solid #2962ff;
+  padding: 0.2rem 0 0.2rem 1rem;
+  color: #667085;
+}
+
+.weekly-article-body img {
+  max-width: 100%;
+  border-radius: 0.45rem;
+}
+
+.weekly-photo {
+  margin: 1rem 0 2rem;
+  text-align: center;
+}
+
+.weekly-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+.weekly-photo figcaption a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.weekly-article-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3.5rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.12);
+  padding-top: 1rem;
+  color: #667085;
+  font-size: 0.82rem;
+}
+
+:root.dark .weekly-index-header,
+:root.dark .weekly-sidebar,
+:root.dark .weekly-article-footer {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+:root.dark .weekly-card {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: #2b2e38;
+  box-shadow: none;
+}
+
+:root.dark .weekly-card:hover {
+  border-color: rgba(154, 181, 255, 0.55);
+}
+
+:root.dark .weekly-index-intro,
+:root.dark .weekly-index-intro p,
+:root.dark .weekly-empty,
+:root.dark .weekly-card-heading time,
+:root.dark .weekly-card-copy p,
+:root.dark .weekly-sidebar-note,
+:root.dark .weekly-article-meta,
+:root.dark .weekly-article-header > p,
+:root.dark .weekly-article-footer,
+:root.dark .weekly-article-body blockquote {
+  color: #aeb7c5;
+}
+
+:root.dark .weekly-sidebar-list li + li {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+:root.dark .weekly-sidebar-list a,
+:root.dark .weekly-article-body {
+  color: #e5e7eb;
+}
+
+:root.dark .weekly-article-body a,
+:root.dark .weekly-sidebar-list a:hover,
+:root.dark .weekly-sidebar-list a[aria-current="page"] {
+  color: #9ab5ff;
+}
+
+:root.dark .weekly-article-body code {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 991.98px) {
+  .weekly-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .weekly-shell {
+    display: block;
+    width: calc(100% - 2rem);
+    max-width: 41.2rem;
+  }
+
+  .weekly-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 639.98px) {
+  .weekly-index {
+    width: calc(100% - 2rem);
+    max-width: 36rem;
+  }
+
+  .weekly-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
