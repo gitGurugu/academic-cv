@@ -18,6 +18,9 @@ resources/
 # Hugo stats
 hugo_stats.json
 
+# Generated at build time by scripts/generate-github-activity.mjs
+static/uploads/github-activity.json
+
 # Auto-generated JS config
 **/assets/jsconfig.json
 

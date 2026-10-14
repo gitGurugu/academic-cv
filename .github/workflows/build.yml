@@ -85,6 +85,12 @@ jobs:
           pnpm install --no-frozen-lockfile || npm install
         fi
 
+    - name: Generate GitHub activity data
+      # Failures only warn: the site still builds and the panel shows "unavailable".
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      run: node scripts/generate-github-activity.mjs
+
     - name: Verify Tailwind CSS dependency
       if: hashFiles('package.json') != ''
       run: |

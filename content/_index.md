@@ -15,6 +15,8 @@ sections:
       button:
         text: Download CV
         url: uploads/resume.pdf
+      # GitHub username for the activity graph (needs a profile repo with the snake workflow)
+      github_user: gitGurugu
       headings:
         about: 'Biography'
         education: ''

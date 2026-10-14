@@ -83,13 +83,19 @@
   {{ end }}
 {{ end }}
 
+{{/* Local layout: shared card styles for the profile, activity and bottom panels */}}
+{{ $panel := "rounded-2xl p-5 bg-white/60 dark:bg-gray-800/50 shadow-md backdrop-blur-md" }}
+{{ $panel_title := "text-xl font-bold text-gray-900 dark:text-white tracking-tight mb-3" }}
+{{ $github_user := "gitGurugu" }}
+{{ with index $content "github_user" }}{{ $github_user = printf "%v" . }}{{ end }}
+
 <div class="resume-biography py-8 px-4 sm:py-12 md:py-16 lg:py-24 xl:py-32 relative overflow-hidden">
   {{/* Add subtle top gradient for navbar transition */}}
   <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-stretch">
 
       {{/* Left Column: Flexible span */}}
-      <div class="md:col-span-4 flex flex-col items-center text-center space-y-6 md:space-y-8">
+      <div class="md:col-span-4 flex flex-col items-center justify-center text-center space-y-6 md:space-y-8 {{ $panel }}">
 
         {{/* Banner Image */}}
         {{ $img := "" }}
@@ -338,7 +344,7 @@
       </div>
 
       {{/* Right Column: Flexible span */}}
-      <div class="md:col-span-8">
+      <div class="md:col-span-8 flex flex-col">
 
         {{/* Bio Section */}}
         {{ $bio_content := "" }}
@@ -406,122 +412,134 @@
           {{ end }}
         {{ end }}
 
-        {{/* Education Section */}}
-        {{ $education_raw := $profile.education }}
-        {{ $education := slice }}
-        {{ if reflect.IsSlice $education_raw }}
-          {{ $education = $education_raw }}
-        {{ end }}
-        {{ if gt (len $education) 0 }}
-        <div class="mb-16">
-          <div class="flex items-center gap-4 mb-8">
-            <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
-              {{ partial "functions/get_icon" (dict "name" "academic-cap" "attributes" "class='w-6 h-6 text-primary-600 dark:text-primary-400'") }}
-            </div>
-            {{ $education_heading := i18n "education" }}
-            {{ $education_heading_raw := index $headings "education" }}
-            {{ if eq (printf "%T" $education_heading_raw) "string" }}
-              {{ $education_heading_raw = strings.TrimSpace $education_heading_raw }}
-              {{ if ne $education_heading_raw "" }}
-                {{ $education_heading = $education_heading_raw }}
-              {{ end }}
-            {{ end }}
-            <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $education_heading | markdownify }}</h3>
+        {{/* GitHub Activity: grows to fill the column so both columns end at the same height */}}
+        <section class="github-activity-panel {{ $panel }} flex-1 flex flex-col justify-center" aria-label="GitHub activity over the last 53 weeks">
+          <div class="mb-3 flex flex-wrap items-baseline justify-between gap-x-4">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white tracking-tight">GitHub Activity</h3>
+            <span class="text-sm text-gray-500 dark:text-gray-400" data-github-status>Last 53 weeks</span>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {{ range $education }}
-            {{ if reflect.IsMap . }}
-            {{ $degree := "" }}
-            {{ $degreeRaw := index . "degree" | default (index . "area") }}
-            {{ if ne $degreeRaw nil }}{{ $degree = printf "%v" $degreeRaw }}{{ end }}
-            {{ $year := "" }}
-            {{ with index . "year" }}{{ $year = printf "%v" . }}{{ end }}
-            {{ $start := "" }}
-            {{ with index . "start" }}{{ $start = printf "%v" . }}{{ end }}
-            {{ $end := "" }}
-            {{ with index . "end" }}{{ $end = printf "%v" . }}{{ end }}
-            {{ $institution := "" }}
-            {{ with index . "institution" }}{{ $institution = printf "%v" . }}{{ end }}
-            {{ $icon := "" }}
-            {{ $iconRaw := index . "icon" }}
-            {{ if eq (printf "%T" $iconRaw) "string" }}
-              {{ $icon = $iconRaw }}
-            {{ end }}
-            <div class="group h-full flex flex-col bg-gradient-to-br from-white/90 to-primary-50/30 dark:from-gray-800/90 dark:to-primary-900/20 rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-transparent hover:border-primary-200 dark:hover:border-primary-800 backdrop-blur-md">
-              <div class="flex gap-4">
-                <div class="flex-shrink-0 w-12 h-12 bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-gray-700 rounded-full flex items-center justify-center shadow-md">
-                  {{ if $icon }}
-                    {{ partial "functions/get_icon" (dict "name" $icon "attributes" "class='w-6 h-6 text-primary-600 dark:text-primary-400'") }}
-                  {{ else }}
-                    {{ partial "functions/get_icon" (dict "name" "academic-cap" "attributes" "class='w-6 h-6 text-primary-600 dark:text-primary-400'") }}
-                  {{ end }}
-                </div>
-                <div class="flex-1 flex-grow">
-                  {{ if $degree }}
-                  <p class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                    {{ $degree }}
-                  </p>
-                  {{ end }}
-                  {{ if $year }}
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">{{ $year }}</p>
-                  {{ else if $start }}
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
-                      {{ $start }}
-                      {{ if $end }}<br>{{ $end }}{{ end }}
-                    </p>
-                  {{ end }}
-                  {{ if $institution }}
-                    <p class="text-gray-700 dark:text-gray-300 text-base">{{ $institution }}</p>
-                  {{ end }}
-                </div>
-              </div>
-            </div>
-            {{ end }}
-            {{ end }}
-          </div>
-        </div>
-        {{ end }}
-
-        {{/* Interests Section */}}
-        {{ $interests_raw := $profile.interests }}
-        {{ $interests := slice }}
-        {{ if reflect.IsSlice $interests_raw }}
-          {{ $interests = $interests_raw }}
-        {{ else if eq (printf "%T" $interests_raw) "string" }}
-          {{ $interests = slice $interests_raw }}
-        {{ end }}
-        {{ if gt (len $interests) 0 }}
-        <div>
-          <div class="flex items-center gap-4 mb-8">
-            <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
-              {{ partial "functions/get_icon" (dict "name" "sparkles" "attributes" "class='w-6 h-6 text-primary-600 dark:text-primary-400'") }}
-            </div>
-            {{ $interests_heading := i18n "interests" }}
-            {{ $interests_heading_raw := index $headings "interests" }}
-            {{ if eq (printf "%T" $interests_heading_raw) "string" }}
-              {{ $interests_heading_raw = strings.TrimSpace $interests_heading_raw }}
-              {{ if ne $interests_heading_raw "" }}
-                {{ $interests_heading = $interests_heading_raw }}
-              {{ end }}
-            {{ end }}
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $interests_heading | markdownify }}</h3>
-          </div>
-          <div class="flex flex-wrap gap-3">
-            {{ range $interests }}
-            {{ $interest := strings.TrimSpace (printf "%v" .) }}
-            {{ if $interest }}
-            <span class="inline-block bg-primary-50 dark:bg-gray-800 text-primary-800 dark:text-primary-200 text-base font-medium px-4 py-2 rounded-full border border-primary-200/50 dark:border-primary-800/50
-                           hover:bg-primary-100
-                           dark:hover:bg-primary-500 dark:hover:text-gray-900 dark:hover:border-primary-500
-                           transition-all duration-200 cursor-default">
-              {{ $interest | markdownify | emojify }}
-            </span>
-            {{ end }}
-            {{ end }}
-          </div>
-        </div>
+          <canvas class="block w-full" data-github-activity-canvas data-source="{{ "uploads/github-activity.json" | relURL }}"
+                  role="img" aria-label="{{ $github_user }}'s daily GitHub contributions over the last 53 weeks, animated as a snake eating active days."></canvas>
+        </section>
+        {{ with resources.Get "js/github-activity.js" }}
+          {{ $js := . | resources.Minify | fingerprint }}
+          <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
         {{ end }}
       </div>
     </div>
+
+    {{/* Bottom panels: Interests, Education, Prizes & Talks */}}
+    <div class="mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 items-stretch">
+
+      {{/* Interests */}}
+      {{ $interests_raw := $profile.interests }}
+      {{ $interests := slice }}
+      {{ if reflect.IsSlice $interests_raw }}
+        {{ $interests = $interests_raw }}
+      {{ else if eq (printf "%T" $interests_raw) "string" }}
+        {{ $interests = slice $interests_raw }}
+      {{ end }}
+      {{ if gt (len $interests) 0 }}
+      <section class="{{ $panel }}">
+        {{ $interests_heading := i18n "interests" }}
+        {{ with index $headings "interests" }}{{ if ne (strings.TrimSpace .) "" }}{{ $interests_heading = strings.TrimSpace . }}{{ end }}{{ end }}
+        <h3 class="{{ $panel_title }}">{{ $interests_heading | markdownify }}</h3>
+        <ul class="space-y-1.5 text-gray-800 dark:text-gray-200">
+          {{ range $interests }}
+          {{ $interest := strings.TrimSpace (printf "%v" .) }}
+          {{ if $interest }}
+          <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary-500"></span><span>{{ $interest | markdownify | emojify }}</span></li>
+          {{ end }}
+          {{ end }}
+        </ul>
+      </section>
+      {{ end }}
+
+      {{/* Education */}}
+      {{ $education_raw := $profile.education }}
+      {{ $education := slice }}
+      {{ if reflect.IsSlice $education_raw }}
+        {{ $education = $education_raw }}
+      {{ end }}
+      {{ if gt (len $education) 0 }}
+      <section class="{{ $panel }}">
+        {{ $education_heading := i18n "education" }}
+        {{ with index $headings "education" }}{{ if ne (strings.TrimSpace .) "" }}{{ $education_heading = strings.TrimSpace . }}{{ end }}{{ end }}
+        <h3 class="{{ $panel_title }}">{{ $education_heading | markdownify }}</h3>
+        <ul class="space-y-3">
+          {{ range $education }}
+          {{ if reflect.IsMap . }}
+          {{ $edu := . }}
+          {{ $degree := "" }}
+          {{ $degreeRaw := index $edu "degree" | default (index $edu "area") }}
+          {{ if ne $degreeRaw nil }}{{ $degree = printf "%v" $degreeRaw }}{{ end }}
+          {{ $institution := "" }}
+          {{ with index $edu "institution" }}{{ $institution = printf "%v" . }}{{ end }}
+          {{/* Period: explicit `year`, else "start–end" from the year part of the dates */}}
+          {{ $period := "" }}
+          {{ with index $edu "year" }}{{ $period = printf "%v" . }}{{ end }}
+          {{ if not $period }}
+            {{ with index $edu "start" }}
+              {{ $period = substr (printf "%v" .) 0 4 }}
+              {{ with index $edu "end" }}
+                {{ $period = printf "%s–%s" $period (substr (printf "%v" .) 0 4) }}
+              {{ else }}
+                {{ $period = printf "%s–Present" $period }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/50">
+              {{ partial "functions/get_icon" (dict "name" "academic-cap" "attributes" "class='w-4 h-4 text-primary-600 dark:text-primary-400'") }}
+            </span>
+            <div>
+              {{ if $degree }}<p class="font-semibold text-gray-900 dark:text-white leading-snug">{{ $degree }}{{ with $period }}, {{ . }}{{ end }}</p>{{ end }}
+              {{ if $institution }}<p class="text-sm text-gray-600 dark:text-gray-400">{{ $institution }}</p>{{ end }}
+            </div>
+          </li>
+          {{ end }}
+          {{ end }}
+        </ul>
+      </section>
+      {{ end }}
+
+      {{/* Prizes & Talks (from the author's `awards`) */}}
+      {{ $awards_raw := $profile.awards }}
+      {{ $awards := slice }}
+      {{ if reflect.IsSlice $awards_raw }}
+        {{ $awards = $awards_raw }}
+      {{ end }}
+      {{ if gt (len $awards) 0 }}
+      <section class="{{ $panel }}">
+        {{ $awards_heading := "Prizes & Talks" }}
+        {{ with index $headings "awards" }}{{ if ne (strings.TrimSpace .) "" }}{{ $awards_heading = strings.TrimSpace . }}{{ end }}{{ end }}
+        <h3 class="{{ $panel_title }}">{{ $awards_heading | markdownify }}</h3>
+        <ul class="space-y-3">
+          {{ range $awards }}
+          {{ if reflect.IsMap . }}
+          {{ $award := . }}
+          {{ $award_title := "" }}
+          {{ with index $award "title" }}{{ $award_title = printf "%v" . }}{{ end }}
+          {{ $awarder := "" }}
+          {{ with index $award "awarder" }}{{ $awarder = printf "%v" . }}{{ end }}
+          {{ $award_year := "" }}
+          {{ with index $award "date" }}{{ $award_year = substr (printf "%v" .) 0 4 }}{{ end }}
+          {{ if $award_title }}
+          <li class="flex items-start justify-between gap-3">
+            <div>
+              <p class="font-semibold text-gray-900 dark:text-white leading-snug">{{ $award_title | markdownify | emojify }}</p>
+              {{ if $awarder }}<p class="text-sm text-gray-600 dark:text-gray-400">{{ $awarder }}</p>{{ end }}
+            </div>
+            {{ if $award_year }}<span class="flex-shrink-0 text-sm text-gray-500 dark:text-gray-400">{{ $award_year }}</span>{{ end }}
+          </li>
+          {{ end }}
+          {{ end }}
+          {{ end }}
+        </ul>
+      </section>
+      {{ end }}
+
+    </div>
+
   </div>
 </div>
