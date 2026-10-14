@@ -43,7 +43,7 @@ const dir = join(WEEKLY_DIR, String(issue))
 const stamp = localIso(now)
 
 const body = `---
-title: "Weekly #${issue} · ${theme}"
+title: "Weekly ${issue} · ${theme}"
 date: ${stamp}
 lastmod: ${stamp}
 summary: "用一句话概括这一周的主要内容。"

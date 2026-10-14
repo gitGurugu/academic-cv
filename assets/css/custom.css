@@ -45,6 +45,20 @@
   }
 }
 
+/* Navbar menu: readable beside the site name on desktop and mobile */
+.nav-link {
+  font-size: 1.1rem;
+  line-height: 1.75rem;
+}
+
+@media (min-width: 1024px) {
+  .nav-link {
+    font-size: 1.2rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
 /* Portrait (rectangular) avatar: the template only offers square-ish shapes and sets
    the size inline, so force the box to 3:4. object-fit: cover crops the photo to fit. */
 .resume-biography .avatar-wrapper {
