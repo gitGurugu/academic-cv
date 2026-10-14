@@ -32,6 +32,32 @@
   gap: 0.75rem;
 }
 
+/* Navbar site name: larger, and nudged away from the left edge */
+.navbar-brand {
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  margin-left: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .navbar-brand {
+    margin-left: 3rem;
+  }
+}
+
+/* Portrait (rectangular) avatar: the template only offers square-ish shapes and sets
+   the size inline, so force the box to 3:4. object-fit: cover crops the photo to fit. */
+.resume-biography .avatar-wrapper {
+  width: 150px !important;
+  height: 200px !important;
+}
+
+.resume-biography .avatar-wrapper .avatar {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0.75rem;
+}
+
 /* Download CV button */
 .resume-biography a.bg-gradient-to-r {
   padding: 0.5rem 1.25rem;
