@@ -1,8 +1,14 @@
-{{/* Local override of the citation list view: one publication per entry.
+{{/* Local override of the citation list view: one publication per entry, laid out as
+       title
+       authors  (legend for † / * when an author uses them)
+       venue year  [Conference|Journal] [CCF-x]
+       summary (optional)
+       link buttons (Cite, PDF, ...)
      Extra front matter used here:
-       ccf_rank: A                       -> red "CCF-A" badge after the venue
-       publication_status: under-review  -> grey "Under Review" badge instead of the venue
-     The site owner's name (is_owner in data/authors) is shown in bold, co-authors in a muted colour. */}}
+       ccf_rank: A                       -> red "CCF-A" badge
+       publication_status: under-review  -> grey "Under Review" badge instead of the venue line
+       publication_types                 -> blue "Conference" / grey "Journal" badge
+     The site owner's name (is_owner in data/authors) is bold, co-authors are muted. */}}
 {{ $item := .item }}
 {{ $year_value := $item.Params.event_start | default $item.Date }}
 {{ $year := (time $year_value).Format "2006" }}
@@ -12,27 +18,60 @@
 {{ $authors := $item.Params.authors | default slice }}
 {{ if not (reflect.IsSlice $authors) }}{{ $authors = slice $authors }}{{ end }}
 
+{{/* Legend: which author markers are used? */}}
+{{ $has_corresponding := false }}
+{{ $has_equal := false }}
+{{ range $authors }}
+  {{ if in (printf "%v" .) "†" }}{{ $has_corresponding = true }}{{ end }}
+  {{ if in (printf "%v" .) "*" }}{{ $has_equal = true }}{{ end }}
+{{ end }}
+
+{{/* Publication type badge */}}
+{{ $type := "" }}
+{{ $type_class := "" }}
+{{ with $item.Params.publication_types }}
+  {{ $first := index . 0 }}
+  {{ if eq $first "paper-conference" }}{{ $type = "Conference" }}{{ $type_class = "pub-badge-conference" }}
+  {{ else if eq $first "article-journal" }}{{ $type = "Journal" }}{{ $type_class = "pub-badge-journal" }}
+  {{ end }}
+{{ end }}
+
 <div class="pub-list-item view-citation">
-  <svg class="pub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9z"/></svg>
+  <a href="{{ $item.RelPermalink }}" class="pub-title">{{ $item.Title }}</a>
 
-  {{- range $i, $raw := $authors -}}
-    {{- $profile := partial "functions/get_author_profile" (dict "slug" ($raw | urlize) "title" $raw) -}}
-    {{- if gt $i 0 }}, {{ end -}}
-    <span class="{{ if $profile.is_owner }}pub-author-me{{ else }}pub-author{{ end }}">{{ $profile.title | default $raw }}</span>
-  {{- end }}
-  ({{- $year -}}).
-  <a href="{{ $item.RelPermalink }}" class="pub-title">{{ $item.Title }}</a>.
+  <div class="pub-authors">
+    {{- range $i, $raw := $authors -}}
+      {{- /* Markers (†, *) are display-only: strip them before looking the author up. */ -}}
+      {{- $name := replaceRE `[†*]+$` "" (printf "%v" $raw) -}}
+      {{- $marker := strings.TrimPrefix $name (printf "%v" $raw) -}}
+      {{- $profile := partial "functions/get_author_profile" (dict "slug" ($name | urlize) "title" $name) -}}
+      {{- if gt $i 0 }}, {{ end -}}
+      <span class="{{ if $profile.is_owner }}pub-author-me{{ else }}pub-author{{ end }}">{{ $profile.title | default $name }}{{ $marker }}</span>
+    {{- end -}}
+    {{- if or $has_corresponding $has_equal }}
+    <span class="pub-legend">(
+      {{- if $has_equal }}* equal contribution{{ end -}}
+      {{- if and $has_equal $has_corresponding }}; {{ end -}}
+      {{- if $has_corresponding }}† corresponding author{{ end -}}
+    )</span>
+    {{- end }}
+  </div>
 
-  {{- if $is_under_review }}
-  <span class="pub-badge pub-badge-review"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>Under Review</span>
-  {{- else }}
-  {{ with $pub.display_short }}In {{ . | markdownify }}{{ end }}
-  {{- with $item.Params.ccf_rank }}
-  <span class="pub-badge pub-badge-ccf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-3 5 3-1.5-7.5"/></svg>CCF-{{ . }}</span>
-  {{- end }}
-  {{- end }}
+  <div class="pub-venue">
+    {{- if $is_under_review -}}
+    <span class="pub-badge pub-badge-review">Under Review</span>
+    {{- else -}}
+    {{- with $pub.display }}<span class="pub-venue-name">{{ . | markdownify }}</span> {{ $year }}{{ else }}{{ $year }}{{ end -}}
+    {{- with $type }}<span class="pub-badge {{ $type_class }}">{{ . }}</span>{{ end -}}
+    {{- with $item.Params.ccf_rank }}<span class="pub-badge pub-badge-ccf">CCF-{{ . }}</span>{{ end -}}
+    {{- end -}}
+  </div>
 
-  {{- if $has_attachments }}
-  <span class="pub-links">{{ partial "page_links" (dict "page" $item "is_list" 1) }}</span>
-  {{- end }}
+  {{ with $item.Params.summary }}<p class="pub-summary">{{ . }}</p>{{ end }}
+
+  {{ if $has_attachments }}
+  <div class="pub-links">
+    {{ partial "page_links" (dict "page" $item "is_list" 1) }}
+  </div>
+  {{ end }}
 </div>

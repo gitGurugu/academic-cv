@@ -78,19 +78,38 @@
   border-bottom: 1px solid rgba(127, 127, 127, 0.3);
 }
 
-/* Publication list entry: icon, authors, (year). linked title. venue, badges, link buttons */
-.pub-list-item {
-  margin-bottom: 1rem;
-  line-height: 1.7;
+/* Publication list. The theme caps it at max-w-3xl (768px); this matches the biography block. */
+.pub-list {
+  width: 100%;
+  max-width: 80rem;
+  margin: 3rem auto 0;
 }
 
-.pub-icon {
-  display: inline-block;
-  width: 1.1em;
-  height: 1.1em;
-  margin-right: 0.4rem;
-  vertical-align: -0.2em;
-  opacity: 0.7;
+/* Entry: title / authors + legend / venue year + badges / summary / link buttons */
+.pub-list-item {
+  margin-bottom: 1.75rem;
+  line-height: 1.6;
+}
+
+.pub-title {
+  display: block;
+  font-size: 1.65rem;
+  line-height: 1.3;
+  color: inherit;
+}
+
+.pub-title:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+:root.dark .pub-title:hover {
+  color: #7cb7ff;
+}
+
+.pub-authors {
+  margin-top: 0.3rem;
+  font-size: 1.15rem;
 }
 
 .pub-author {
@@ -105,39 +124,63 @@
   color: #9ca3af;
 }
 
-.pub-title {
-  color: #2563eb;
+/* "(† corresponding author)" explanation after the author list */
+.pub-legend {
+  margin-left: 0.4rem;
+  padding: 0 0.4rem;
+  border-radius: 0.25rem;
+  background: #fef9e7;
+  color: #1f2937;
+  font-size: 0.95em;
+  font-style: italic;
 }
 
-.pub-title:hover {
-  text-decoration: underline;
+:root.dark .pub-legend {
+  background: rgba(250, 204, 21, 0.15);
+  color: #fde68a;
 }
 
-:root.dark .pub-title {
-  color: #7cb7ff;
+.pub-venue {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+  font-size: 1.1rem;
 }
 
+.pub-summary {
+  margin: 0.3rem 0 0;
+  color: #6b7280;
+  font-size: 1.05rem;
+}
+
+:root.dark .pub-summary {
+  color: #9ca3af;
+}
+
+/* Pill badges after the venue: Conference / Journal / CCF-x / Under Review */
 .pub-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  margin: 0 0.35rem;
-  padding: 0 0.6rem;
+  padding: 0 0.75rem;
   border-radius: 9999px;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  line-height: 1.5rem;
-  vertical-align: baseline;
+  line-height: 1.75rem;
+  color: #fff;
 }
 
-.pub-badge svg {
-  width: 0.95em;
-  height: 0.95em;
+.pub-badge-conference {
+  background: #2563eb;
+}
+
+.pub-badge-journal {
+  background: #6b7280;
 }
 
 .pub-badge-ccf {
   background: #dc2626;
-  color: #fff;
 }
 
 .pub-badge-review {
@@ -150,18 +193,20 @@
   color: #f3f4f6;
 }
 
-/* Link buttons (Cite, PDF, Source Document...): small outlined buttons on the same line */
+/* Link buttons (Cite, PDF, Source Document...): small outlined buttons under the entry */
 .pub-links {
-  display: inline;
-  white-space: nowrap;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
 }
 
 .pub-links .hb-attachment-link {
-  margin: 0 0.25rem 0 0;
-  padding: 0.05rem 0.55rem;
+  margin: 0;
+  padding: 0.1rem 0.7rem;
   border: 1px solid currentColor;
   border-radius: 0.25rem;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 400;
   letter-spacing: normal;
   text-transform: none;
