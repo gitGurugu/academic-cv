@@ -1,0 +1,39 @@
+/* Compact home page: tighten the biography block (resume-biography-3).
+   Its padding and margins are hard-coded Tailwind classes, so override them here. */
+
+.resume-biography {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+/* Grid gap between the profile column and the content column */
+.resume-biography > div > .grid {
+  gap: 1.5rem;
+}
+
+/* Left column: vertical rhythm between avatar, name, role and links */
+.resume-biography .space-y-6 > :not(:last-child),
+.resume-biography .md\:space-y-8 > :not(:last-child) {
+  margin-block-end: 0.75rem;
+}
+
+/* Right column: gap between sections and below section headings */
+.resume-biography .mb-16,
+.resume-biography .mb-12 {
+  margin-bottom: 1.25rem;
+}
+
+.resume-biography .mb-8 {
+  margin-bottom: 0.75rem;
+}
+
+/* Education cards */
+.resume-biography .grid.gap-6 {
+  gap: 0.75rem;
+}
+
+/* Download CV button */
+.resume-biography a.bg-gradient-to-r {
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
+}
