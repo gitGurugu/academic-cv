@@ -1,0 +1,57 @@
+{{/* Local block: News = Milestones card + optional Setbacks & Lessons card.
+     Data comes from the block's `content` in content/_index.md; styles are .news-* in assets/css/custom.css. */}}
+{{ $block := .wcBlock }}
+{{ $content := $block.content }}
+{{ if not (reflect.IsMap $content) }}{{ $content = dict }}{{ end }}
+
+{{ $milestones := slice }}
+{{ with index $content "milestones" }}{{ if reflect.IsSlice . }}{{ $milestones = . }}{{ end }}{{ end }}
+
+{{ $setbacks := dict }}
+{{ with index $content "setbacks" }}{{ if reflect.IsMap . }}{{ $setbacks = . }}{{ end }}{{ end }}
+{{ $setback_groups := slice }}
+{{ with index $setbacks "items" }}{{ if reflect.IsSlice . }}{{ $setback_groups = . }}{{ end }}{{ end }}
+
+<div class="news-board">
+  {{ with index $content "title" }}<h2 class="news-title">{{ . | markdownify }}</h2>{{ end }}
+
+  <div class="news-grid{{ if not $setback_groups }} news-grid-single{{ end }}">
+
+    {{ if $milestones }}
+    <section class="news-card news-card-success" aria-labelledby="news-milestones-title">
+      <h3 id="news-milestones-title" class="news-card-title">{{ index $content "milestones_title" | default "Milestones" }}</h3>
+      <ul>
+        {{ range $g, $group := $milestones }}
+        {{ $year := printf "%v" (index $group "year") }}
+        {{ range $i, $item := (index $group "items") }}
+        <li{{ if and (eq $i 0) (gt $g 0) }} class="news-year-start"{{ end }}>
+          {{ if eq $i 0 }}<time datetime="{{ $year }}">{{ $year }}</time>{{ else }}<span class="news-year-spacer" aria-hidden="true"></span>{{ end }}
+          <span>{{ $item | markdownify }}</span>
+        </li>
+        {{ end }}
+        {{ end }}
+      </ul>
+    </section>
+    {{ end }}
+
+    {{ if $setback_groups }}
+    <aside class="news-card news-card-failure" aria-labelledby="news-setbacks-title">
+      <h3 id="news-setbacks-title" class="news-card-title">{{ index $setbacks "title" | default "Setbacks & Lessons" }}</h3>
+      {{ with index $setbacks "intro" }}<p class="news-card-intro">{{ . }}</p>{{ end }}
+      <ul>
+        {{ range $g, $group := $setback_groups }}
+        {{ $year := printf "%v" (index $group "year") }}
+        {{ range $i, $entry := (index $group "entries") }}
+        <li{{ if and (eq $i 0) (gt $g 0) }} class="news-year-start"{{ end }}>
+          {{ if eq $i 0 }}<time datetime="{{ $year }}">{{ $year }}</time>{{ else }}<span class="news-year-spacer" aria-hidden="true"></span>{{ end }}
+          <span><strong>{{ index $entry "name" }}</strong><span class="news-status">{{ index $entry "status" | default "Rejected" }}</span></span>
+        </li>
+        {{ end }}
+        {{ end }}
+      </ul>
+      {{ with index $setbacks "link" }}<a class="news-card-link" href="{{ . | relURL }}">{{ index $setbacks "link_text" | default "Read more →" }}</a>{{ end }}
+    </aside>
+    {{ end }}
+
+  </div>
+</div>
