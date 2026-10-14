@@ -58,6 +58,12 @@
   border-radius: 0.75rem;
 }
 
+/* Biography text: `prose` caps the width at 65ch, which leaves a blank strip on the right.
+   Let it fill the whole column instead. */
+.resume-biography .prose {
+  max-width: none;
+}
+
 /* Download CV button */
 .resume-biography a.bg-gradient-to-r {
   padding: 0.5rem 1.25rem;
