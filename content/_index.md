@@ -64,9 +64,7 @@ sections:
             - Admitted through the recommendation (exam-exempt) program to the **Ph.D. program at SIA, UCAS**.
             - Our work **CPGR-Mem** was accepted by IEEE IJCNN.
     design:
-      background:
-        gradient_mesh:
-          enable: true
+      css_class: news-section
       spacing:
         padding: [0, 0, 0, 0]
 ---

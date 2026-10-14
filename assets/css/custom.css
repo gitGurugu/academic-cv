@@ -335,6 +335,14 @@
   background: #111827;
 }
 
+.news-section {
+  background: linear-gradient(135deg, #c7f0ec 0%, #d7f5f1 100%);
+}
+
+:root.dark .news-section {
+  background: linear-gradient(135deg, #16302d 0%, #1a2f33 100%);
+}
+
 /* News board: Milestones + Setbacks & Lessons cards (layouts/_partials/hbx/blocks/news-board) */
 .news-board {
   width: 100%;
