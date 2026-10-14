@@ -96,8 +96,11 @@ languages:
     label: Fluent
 
 awards:
-  - title: Best Paper Award
-    awarder: NeurIPS
-    date: "2022-12-01"
-    summary: Awarded for groundbreaking work on efficient training of large models.
+  - title: National Scholarship
+    awarder: Ministry of Education of China
+    date: "2026"
+    icon: hero/trophy
+  - title: National Scholarship
+    awarder: Ministry of Education of China
+    date: "2025"
     icon: hero/trophy
