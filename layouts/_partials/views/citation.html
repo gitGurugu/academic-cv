@@ -26,7 +26,7 @@
   {{- if $is_under_review }}
   <span class="pub-badge pub-badge-review"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>Under Review</span>
   {{- else }}
-  {{ with $pub.display_short }}{{- . | markdownify -}}{{ end }}
+  {{ with $pub.display_short }}In {{ . | markdownify }}{{ end }}
   {{- with $item.Params.ccf_rank }}
   <span class="pub-badge pub-badge-ccf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-3 5 3-1.5-7.5"/></svg>CCF-{{ . }}</span>
   {{- end }}
