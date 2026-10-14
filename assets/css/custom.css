@@ -48,8 +48,8 @@
 /* Portrait (rectangular) avatar: the template only offers square-ish shapes and sets
    the size inline, so force the box to 3:4. object-fit: cover crops the photo to fit. */
 .resume-biography .avatar-wrapper {
-  width: 150px !important;
-  height: 200px !important;
+  width: 225px !important;
+  height: 300px !important;
 }
 
 .resume-biography .avatar-wrapper .avatar {
