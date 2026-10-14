@@ -64,41 +64,110 @@
   font-size: 1rem;
 }
 
-/* Publication list: venue badges next to each entry */
+/* Standalone section (design.css_class: page-section): divider lines above and below.
+   No fixed height, so the section grows with the number of entries. */
+.page-section {
+  border-top: 1px solid rgba(127, 127, 127, 0.3);
+  border-bottom: 1px solid rgba(127, 127, 127, 0.3);
+}
+
+/* Publication list entry: icon, authors, (year). linked title. venue, badges, link buttons */
 .pub-list-item {
   margin-bottom: 1rem;
-  line-height: 1.6;
+  line-height: 1.7;
+}
+
+.pub-icon {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: 0.4rem;
+  vertical-align: -0.2em;
+  opacity: 0.7;
+}
+
+.pub-author {
+  color: #6b7280;
+}
+
+.pub-author-me {
+  font-weight: 700;
+}
+
+:root.dark .pub-author {
+  color: #9ca3af;
+}
+
+.pub-title {
+  color: #2563eb;
+}
+
+.pub-title:hover {
+  text-decoration: underline;
+}
+
+:root.dark .pub-title {
+  color: #7cb7ff;
 }
 
 .pub-badge {
-  display: inline-block;
-  margin-left: 0.35rem;
-  padding: 0 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0 0.35rem;
+  padding: 0 0.6rem;
   border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
   line-height: 1.5rem;
   vertical-align: baseline;
 }
 
+.pub-badge svg {
+  width: 0.95em;
+  height: 0.95em;
+}
+
 .pub-badge-ccf {
-  background: #fef3c7;
-  color: #92400e;
+  background: #dc2626;
+  color: #fff;
 }
 
 .pub-badge-review {
-  background: #e0e7ff;
-  color: #3730a3;
-}
-
-:root.dark .pub-badge-ccf {
-  background: rgba(245, 158, 11, 0.2);
-  color: #fcd34d;
+  background: #e5e7eb;
+  color: #374151;
 }
 
 :root.dark .pub-badge-review {
-  background: rgba(99, 102, 241, 0.25);
-  color: #c7d2fe;
+  background: #4b5563;
+  color: #f3f4f6;
+}
+
+/* Link buttons (Cite, PDF, Source Document...): small outlined buttons on the same line */
+.pub-links {
+  display: inline;
+  white-space: nowrap;
+}
+
+.pub-links .hb-attachment-link {
+  margin: 0 0.25rem 0 0;
+  padding: 0.05rem 0.55rem;
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  text-decoration: none;
+}
+
+.pub-links .hb-attachment-link svg {
+  display: none;
+}
+
+.pub-links .hb-attachment-link:hover {
+  background: rgba(127, 127, 127, 0.15);
+  text-decoration: none;
 }
 
 /* Cite dialog (built by assets/js/cite-dialog.js). Plain CSS: its classes only exist in JS,

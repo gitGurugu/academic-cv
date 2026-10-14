@@ -1,35 +1,38 @@
 {{/* Local override of the citation list view: one publication per entry.
      Extra front matter used here:
-       ccf_rank: A            -> "CCF-A" badge after the venue
-       publication_status: under-review -> "Under Review" badge instead of the venue */}}
+       ccf_rank: A                       -> red "CCF-A" badge after the venue
+       publication_status: under-review  -> grey "Under Review" badge instead of the venue
+     The site owner's name (is_owner in data/authors) is shown in bold, co-authors in a muted colour. */}}
 {{ $item := .item }}
 {{ $year_value := $item.Params.event_start | default $item.Date }}
 {{ $year := (time $year_value).Format "2006" }}
 {{ $has_attachments := partial "functions/has_attachments" $item }}
 {{ $pub := partial "functions/resolve_publication.html" $item }}
 {{ $is_under_review := eq $item.Params.publication_status "under-review" }}
-{{ $top_award := "" }}
-{{ with $item.Params.awards }}{{ $top_award = index . 0 }}{{ end }}
+{{ $authors := $item.Params.authors | default slice }}
+{{ if not (reflect.IsSlice $authors) }}{{ $authors = slice $authors }}{{ end }}
 
 <div class="pub-list-item view-citation">
-  <span class="article-metadata li-cite-author">
-    {{ partial "page_metadata_authors" $item }}
-  </span>
-  ({{- $year -}}).
-  <a href="{{ $item.RelPermalink }}" class="underline">{{ $item.Title }}</a>.
-  {{ if $is_under_review }}
-    <span class="pub-badge pub-badge-review">Under Review</span>
-  {{ else }}
-    {{ with $pub.display_short }}{{- . | markdownify -}}.{{ end }}
-    {{ with $item.Params.ccf_rank }}<span class="pub-badge pub-badge-ccf">CCF-{{ . }}</span>{{ end }}
-  {{ end }}
-  {{ with $top_award }}
-    <span class="ml-1">{{ partial "components/award_badge.html" (dict "award" . "page" $item "variant" "inline") }}</span>
-  {{ end }}
+  <svg class="pub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9z"/></svg>
 
-  {{ if $has_attachments }}
-  <div class="flex flex-wrap space-x-3">
-    {{ partial "page_links" (dict "page" $item "is_list" 1) }}
-  </div>
-  {{ end }}
+  {{- range $i, $raw := $authors -}}
+    {{- $profile := partial "functions/get_author_profile" (dict "slug" ($raw | urlize) "title" $raw) -}}
+    {{- if gt $i 0 }}, {{ end -}}
+    <span class="{{ if $profile.is_owner }}pub-author-me{{ else }}pub-author{{ end }}">{{ $profile.title | default $raw }}</span>
+  {{- end }}
+  ({{- $year -}}).
+  <a href="{{ $item.RelPermalink }}" class="pub-title">{{ $item.Title }}</a>.
+
+  {{- if $is_under_review }}
+  <span class="pub-badge pub-badge-review"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>Under Review</span>
+  {{- else }}
+  {{ with $pub.display_short }}{{- . | markdownify -}}{{ end }}
+  {{- with $item.Params.ccf_rank }}
+  <span class="pub-badge pub-badge-ccf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-3 5 3-1.5-7.5"/></svg>CCF-{{ . }}</span>
+  {{- end }}
+  {{- end }}
+
+  {{- if $has_attachments }}
+  <span class="pub-links">{{ partial "page_links" (dict "page" $item "is_list" 1) }}</span>
+  {{- end }}
 </div>

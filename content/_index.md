@@ -48,6 +48,8 @@ sections:
         exclude_featured: false
     design:
       view: citation
+      # Standalone page: divider lines above and below, at least one screen tall, grows with content
+      css_class: page-section
   - block: markdown
     content:
       title: '📚 My Research'
