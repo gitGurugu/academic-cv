@@ -58,9 +58,10 @@
   border-radius: 0.75rem;
 }
 
-/* Biography text: `prose` caps the width at 65ch, which leaves a blank strip on the right.
-   Let it fill the whole column instead. */
-.resume-biography .prose {
+/* Biography text is capped twice, which leaves a blank strip on the right:
+   `prose` at 65ch, and the theme's `.bio-text` at 680px. Let it fill the whole column. */
+.resume-biography .prose,
+.resume-biography .bio-text {
   max-width: none;
 }
 
