@@ -2,16 +2,16 @@ schema: hugoblox/author/v1
 slug: me
 is_owner: true
 name:
-  display: Dr. Alex Johnson
-  given: Alex
-  family: Johnson
+  display: Jiale Kong
+  given: Jiale
+  family: Kong
   alternate: ''  # Example: 王伟
   pronunciation: ''  # Example: Wáng Wěi
   pronouns: he/him
 postnominals:
   - PhD
   - MIEEE
-role: Senior AI Research Scientist
+role: Incoming Ph.D. Student
 bio: |
   Alex Johnson is a Senior AI Research Scientist at Meta AI. His research
   has been published in top conferences like NeurIPS and ICML, with over
@@ -19,8 +19,8 @@ bio: |
   while ensuring ethical development.
 
 affiliations:
-  - name: Meta AI
-    url: https://ai.meta.com/
+  - name: Shenyang Institute of Automation, University of Chinese Academy of Sciences
+    url: https://sia.cas.cn/
 
 links:
   - icon: at-symbol
