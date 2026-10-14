@@ -35,6 +35,19 @@ sections:
       avatar:
         size: small # Options: small (150px), medium (200px, default), large (320px), xl (400px), xxl (500px)
         shape: rounded # Options: circle (default), square, rounded
+  # Every folder in content/publications/ is listed here, newest first. To add a paper,
+  # copy a folder there and edit its index.md; a cite.bib in the folder adds a "Cite" button.
+  - block: collection
+    id: publications
+    content:
+      title: Recent Publications
+      text: ''
+      filters:
+        folders:
+          - publications
+        exclude_featured: false
+    design:
+      view: citation
   - block: markdown
     content:
       title: '📚 My Research'
@@ -58,16 +71,6 @@ sections:
     design:
       view: article-grid
       columns: 2
-  - block: collection
-    content:
-      title: Recent Publications
-      text: ''
-      filters:
-        folders:
-          - publications
-        exclude_featured: false
-    design:
-      view: citation
   - block: collection
     id: talks
     content:

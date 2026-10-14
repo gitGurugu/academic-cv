@@ -63,3 +63,139 @@
   padding: 0.5rem 1.25rem;
   font-size: 1rem;
 }
+
+/* Publication list: venue badges next to each entry */
+.pub-list-item {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.pub-badge {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  vertical-align: baseline;
+}
+
+.pub-badge-ccf {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.pub-badge-review {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+:root.dark .pub-badge-ccf {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fcd34d;
+}
+
+:root.dark .pub-badge-review {
+  background: rgba(99, 102, 241, 0.25);
+  color: #c7d2fe;
+}
+
+/* Cite dialog (built by assets/js/cite-dialog.js). Plain CSS: its classes only exist in JS,
+   so Tailwind would not generate them. margin/border are set explicitly because Tailwind's
+   reset zeroes them, which would pin a <dialog> to the top-left corner. */
+.cite-dialog {
+  width: min(40rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  margin: auto;
+  padding: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.cite-dialog::backdrop {
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.cite-dialog-body {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.cite-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.cite-dialog-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.cite-dialog-code {
+  max-height: 50vh;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  overflow: auto;
+  border-radius: 0.5rem;
+  background: #f3f4f6;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cite-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.cite-dialog-btn {
+  padding: 0.4rem 1rem;
+  border: 1px solid #2563eb;
+  border-radius: 0.5rem;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cite-dialog-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.cite-dialog-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cite-dialog-close {
+  padding: 0 0.6rem;
+  border-color: transparent;
+  background: transparent;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1.75rem;
+}
+
+.cite-dialog-close:hover:not(:disabled) {
+  background: rgba(127, 127, 127, 0.2);
+}
+
+:root.dark .cite-dialog {
+  border-color: #374151;
+  background: #1f2937;
+  color: #f9fafb;
+}
+
+:root.dark .cite-dialog-code {
+  background: #111827;
+}

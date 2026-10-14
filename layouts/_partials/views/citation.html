@@ -1,0 +1,35 @@
+{{/* Local override of the citation list view: one publication per entry.
+     Extra front matter used here:
+       ccf_rank: A            -> "CCF-A" badge after the venue
+       publication_status: under-review -> "Under Review" badge instead of the venue */}}
+{{ $item := .item }}
+{{ $year_value := $item.Params.event_start | default $item.Date }}
+{{ $year := (time $year_value).Format "2006" }}
+{{ $has_attachments := partial "functions/has_attachments" $item }}
+{{ $pub := partial "functions/resolve_publication.html" $item }}
+{{ $is_under_review := eq $item.Params.publication_status "under-review" }}
+{{ $top_award := "" }}
+{{ with $item.Params.awards }}{{ $top_award = index . 0 }}{{ end }}
+
+<div class="pub-list-item view-citation">
+  <span class="article-metadata li-cite-author">
+    {{ partial "page_metadata_authors" $item }}
+  </span>
+  ({{- $year -}}).
+  <a href="{{ $item.RelPermalink }}" class="underline">{{ $item.Title }}</a>.
+  {{ if $is_under_review }}
+    <span class="pub-badge pub-badge-review">Under Review</span>
+  {{ else }}
+    {{ with $pub.display_short }}{{- . | markdownify -}}.{{ end }}
+    {{ with $item.Params.ccf_rank }}<span class="pub-badge pub-badge-ccf">CCF-{{ . }}</span>{{ end }}
+  {{ end }}
+  {{ with $top_award }}
+    <span class="ml-1">{{ partial "components/award_badge.html" (dict "award" . "page" $item "variant" "inline") }}</span>
+  {{ end }}
+
+  {{ if $has_attachments }}
+  <div class="flex flex-wrap space-x-3">
+    {{ partial "page_links" (dict "page" $item "is_list" 1) }}
+  </div>
+  {{ end }}
+</div>

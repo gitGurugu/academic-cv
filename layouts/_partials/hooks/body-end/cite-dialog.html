@@ -1,0 +1,5 @@
+{{/* Loads the Cite dialog script once per page (body-end hook). */}}
+{{ with resources.Get "js/cite-dialog.js" }}
+  {{ $js := . | resources.Minify | fingerprint }}
+  <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{ end }}
