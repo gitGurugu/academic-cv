@@ -51,8 +51,8 @@ sections:
       # Standalone page: divider lines above and below, at least one screen tall, grows with content
       css_class: page-section
   # News: one entry per year under `milestones`, newest first; items support **bold** and links.
-  # Add a `setbacks:` map (title, intro, link, link_text, items: [{year, entries: [{name, status}]}])
-  # to show the "Setbacks & Lessons" card beside it; without it Milestones spans the full width.
+  # The "Setbacks & Lessons" card appears whenever `setbacks` is set; add entries under
+  # `items: [{year, entries: [{name, status}]}]` in the `setbacks:` map.
   - block: news-board
     id: news
     content:
@@ -63,6 +63,9 @@ sections:
           items:
             - Admitted through the recommendation (exam-exempt) program to the **Ph.D. program at SIA, UCAS**.
             - Our work **CPGR-Mem** was accepted by IEEE IJCNN.
+      setbacks:
+        title: Setbacks & Lessons
+        intro: Rejection is part of research. I keep this record as a reminder that progress is rarely linear, and that every setback can become the next starting point.
     design:
       css_class: news-section
       spacing:

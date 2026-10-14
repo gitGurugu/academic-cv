@@ -15,7 +15,7 @@
 <div class="news-board">
   {{ with index $content "title" }}<h2 class="news-title">{{ . | markdownify }}</h2>{{ end }}
 
-  <div class="news-grid{{ if not $setback_groups }} news-grid-single{{ end }}">
+  <div class="news-grid{{ if not $setbacks }} news-grid-single{{ end }}">
 
     {{ if $milestones }}
     <section class="news-card news-card-success" aria-labelledby="news-milestones-title">
@@ -34,10 +34,11 @@
     </section>
     {{ end }}
 
-    {{ if $setback_groups }}
+    {{ if $setbacks }}
     <aside class="news-card news-card-failure" aria-labelledby="news-setbacks-title">
       <h3 id="news-setbacks-title" class="news-card-title">{{ index $setbacks "title" | default "Setbacks & Lessons" }}</h3>
       {{ with index $setbacks "intro" }}<p class="news-card-intro">{{ . }}</p>{{ end }}
+      {{ if $setback_groups }}
       <ul>
         {{ range $g, $group := $setback_groups }}
         {{ $year := printf "%v" (index $group "year") }}
@@ -49,6 +50,7 @@
         {{ end }}
         {{ end }}
       </ul>
+      {{ end }}
       {{ with index $setbacks "link" }}<a class="news-card-link" href="{{ . | relURL }}">{{ index $setbacks "link_text" | default "Read more →" }}</a>{{ end }}
     </aside>
     {{ end }}
