@@ -70,4 +70,21 @@ sections:
       css_class: news-section
       spacing:
         padding: [0, 0, 0, 0]
+  - block: experience-timeline
+    id: experience
+    content:
+      title: Experience
+      text: ''
+      items:
+        - role: LFX Mentorship Mentee
+          org: Volcano (CNCF)
+          start: Jun 2026
+          end: Aug 2026
+          location: Remote
+          bullets:
+            - Worked on namespace-scoped Queue support for the Volcano batch scheduler, introducing a `NamespaceQueue` CRD derived from the cluster Queue with the same semantics, so tenants can manage queues without cluster-admin rights.
+            - Made PodGroup and Job able to reference a NamespaceQueue while staying compatible with the `scheduling.volcano.sh/queue-name` annotation, with Ginkgo E2E tests and documentation. Stack - Go, Kubernetes (CRD, controller, RBAC).
+    design:
+      spacing:
+        padding: [0, 0, 0, 0]
 ---

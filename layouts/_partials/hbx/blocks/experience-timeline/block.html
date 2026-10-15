@@ -1,0 +1,33 @@
+{{/* Local block: Experience timeline. Data comes from the block's `content` in content/_index.md;
+     styles are .exp-* in assets/css/custom.css. */}}
+{{ $block := .wcBlock }}
+{{ $content := $block.content }}
+{{ if not (reflect.IsMap $content) }}{{ $content = dict }}{{ end }}
+
+{{ $items := slice }}
+{{ with index $content "items" }}{{ if reflect.IsSlice . }}{{ $items = . }}{{ end }}{{ end }}
+
+<div class="exp-timeline">
+  {{ with index $content "title" }}<h2 class="exp-title">{{ . }}</h2>{{ end }}
+
+  {{ if $items }}
+  <ol class="exp-list" role="list">
+    {{ range $items }}
+    <li class="exp-item{{ if not .end }} exp-current{{ end }}">
+      <article class="exp-card">
+        <h3 class="exp-role">{{ .role }}</h3>
+        <p class="exp-org">{{ .org }}</p>
+        <p class="exp-meta">{{ .start }} – {{ .end | default "Present" }}{{ with .location }} · {{ . }}{{ end }}</p>
+        {{ with .bullets }}
+        <ul class="exp-bullets">
+          {{ range . }}
+          <li>{{ . | markdownify }}</li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </article>
+    </li>
+    {{ end }}
+  </ol>
+  {{ end }}
+</div>
