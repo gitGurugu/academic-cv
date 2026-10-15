@@ -76,6 +76,13 @@ sections:
       title: Experience
       text: ''
       items:
+        - role: Student Developer
+          org: Open Source Summer (OSPP) 2026 · llama.cpp RVV Operator Optimization
+          start: 2026
+          location: Remote
+          bullets:
+            - Optimizing the RISC-V backend of llama.cpp/GGML with RVV (RISC-V Vector Extension) kernels, developed and validated on a VLEN=1024 K3 platform.
+            - Targets - vectorized SSM scan and Gated-Delta-Net operators, VLEN=1024 quantized dot-product kernels, tinyBLAS LMUL tuning, and `perf`/`llama-bench` profiling, aiming for at least 1.10× geometric-mean speedup and upstream Pull Requests.
         - role: LFX Mentorship Mentee
           org: Volcano (CNCF)
           start: Jun 2026
